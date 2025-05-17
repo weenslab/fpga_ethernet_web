@@ -1,0 +1,51 @@
+<html>
+<head>
+    <title>Web Server LED</title>
+
+    <!-- CSS and javascript library -->
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+    <script src="../static/jquery.min.js"></script>
+    <script src="../static/bootstrap.bundle.min.js"></script>
+    <script>
+        window.onload = function() {
+            $.get('/status', function(response) {
+                console.log(response);
+                $('#state').text(response.state.toUpperCase());
+            });
+
+            $('#btn_on').click(function() {
+                var request = { state: 'on' }
+                $.post('/', JSON.stringify(request), function(response) {
+                    console.log(response);
+                    $('#state').text(response.state.toUpperCase());
+                });
+            });
+
+            $('#btn_off').click(function() {
+                var request = { state: 'off' }
+                $.post('/', JSON.stringify(request), function(response) {
+                    console.log(response);
+                    $('#state').text(response.state.toUpperCase());
+                });
+            });
+        };
+    </script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row h-100">
+            <div class="col-sm-4 offset-sm-4 my-auto">
+                <div class="text-center">
+                    <button type="button" class="btn btn-warning" id="btn_on"><strong>Turn ON</strong></button>
+                </div>
+                <div class="text-center pt-3 pb-5">
+                    <button type="button" class="btn btn-dark" id="btn_off"><strong>Turn OFF</strong></button>
+                </div>
+                <div class="text-center">
+                    <h3>LEDs are <b><span class="badge badge-danger" id="state">N/A</span></b></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
